@@ -38,10 +38,16 @@ Veggies.Plant.prototype.reset = function(x, y, data){
   }
 
   this.isShooter = data.isShooter;
+  this.isSunProducer = data.isSunProducer;
 
   if(this.isShooter) {
       this.shootingTimer.start();
       this.scheduleShooting();
+  }
+
+  if(this.isSunProducer) {
+      this.producingTimer.start();
+      this.scheduleProduction();
   }
 };
 
@@ -57,6 +63,13 @@ Veggies.Plant.prototype.scheduleShooting = function() {
 
     //plants shoot once per second
     this.shootingTimer.add(Phaser.Timer.SECOND, this.scheduleShooting, this);
+};
+
+Veggies.Plant.prototype.scheduleProduction = function() {
+    this.produceSun();
+
+    //plants shoot once per second
+    this.producingTimer.add(Phaser.Timer.SECOND * 5, this.scheduleProduction, this);
 };
 
 Veggies.Plant.prototype.shoot = function() {
@@ -78,4 +91,11 @@ Veggies.Plant.prototype.shoot = function() {
     }
 
     newElement.body.velocity.x = 100;
+};
+
+Veggies.Plant.prototype.produceSun = function() {
+    var diffX = -40 + Math.random() * 80;
+    var diffY = -40 + Math.random() * 80;
+
+    this.state.createSun(this.x + diffX, this.y + diffY);
 };
