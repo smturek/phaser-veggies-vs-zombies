@@ -17,6 +17,7 @@ Veggies.PreloadState = {
         this.load.image('bloodParticle', 'assets/images/blood.png');
         this.load.image('bullet', 'assets/images/bullet.png');
         this.load.image('sunflower', 'assets/images/sunflower.png');
+        this.load.image('chili', 'assets/images/chilli.png');
         this.load.image('deadZombie', 'assets/images/dead_zombie.png');
 
         this.load.spritesheet('chicken', 'assets/images/chicken_sheet.png', 25, 25, 3, 1, 2);

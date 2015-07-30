@@ -111,6 +111,23 @@ createGui: function() {
     this.sunLabel = this.add.text(22, this.game.height - 28, '', style);
 
     this.updateStats();
+
+    //show button bar
+    this.buttonData = JSON.parse(this.game.cache.getText('buttonData'));
+
+    //buttons
+    this.buttons = this.add.group();
+
+    var button;
+    this.buttonData.forEach(function(element, index) {
+        button = new Phaser.Button(this.game, 80 + index * 40, this.game.height - 35, element.btnAsset, this.clickButton, this);
+        this.buttons.add(button);
+
+        //pass the data to the button
+        button.plantData = element;
+    }, this);
+
+    this.plantLabel = this.add.text(300, this.game.height - 28, '', style);
 },
 updateStats: function() {
     this.sunLabel.text = this.numSuns;
@@ -150,5 +167,35 @@ hitZombie: function(bullet, zombie) {
     bullet.kill();
     zombie.damage(1);
     this.hitSound.play();
+},
+clickButton: function(button) {
+    if(!button.selected) {
+        this.clearSelection();
+        this.plantLabel.text = 'Cost: ' + button.plantData.cost;
+        button.selected = true;
+        button.alpha = 0.5;
+
+        //check if you can afford the plant
+        if(this.numSuns >= button.plantData.cost) {
+            this.plantLabel.fill = "white";
+
+            this.currentSelection = button.plantData;
+        }
+        else {
+            this.plantLabel.fill = "red";
+        }
+    }
+    else {
+        this.clearSelection();
+    }
+},
+clearSelection: function() {
+    this.plantLabel.text = '';
+    this.currentSelection = null;
+
+    this.buttons.forEach(function(button){
+        button.alpha = 1;
+        button.selected = false;
+    }, this)
 }
 };

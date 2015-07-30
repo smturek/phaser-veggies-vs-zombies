@@ -22,9 +22,9 @@
     "animationFrames": [1, 2, 1, 0]
   },
   {
-    "btnAsset": "chilliButton",
+    "btnAsset": "chiliButton",
     "cost": 200,
-    "plantAsset": "chilli",
+    "plantAsset": "chili",
     "health": 25,
     "isShooter": true
   }
