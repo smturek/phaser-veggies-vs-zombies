@@ -16,6 +16,7 @@ Veggies.GameState = {
   },
   create: function() {
     this.background = this.add.sprite(0, 0, 'background');
+    this.createLandPatches();
 
     this.hitSound = this.add.audio('hit');
 
@@ -196,6 +197,35 @@ clearSelection: function() {
     this.buttons.forEach(function(button){
         button.alpha = 1;
         button.selected = false;
-    }, this)
+    }, this);
+},
+createLandPatches: function() {
+    this.patches = this.add.group();
+
+    //rectangle to be used
+    var rectangle = this.add.bitmapData(40, 50);
+    rectangle.ctx.fillStyle = '#000';
+    rectangle.ctx.fillRect(0, 0, 40, 50);
+
+    var j, patch;
+    var dark = false;
+
+    for(var i = 0; i < 10; i++) {
+        for(j = 0; j < 5; j++) {
+            patch = new Phaser.Sprite(this.game, 64 + i * 40, 24 + j * 50, rectangle);
+            this.patches.add(patch);
+            alpha = dark ? 0.2 : 0.1;
+            dark = !dark;
+
+            patch.alpha = alpha;
+
+            //plant something if the patch is available and a plant is selected
+            patch.inputEnabled = true;
+            patch.events.onInputDown.add(this.plantPlant, this);
+        }
+    }
+},
+plantPlant: function(patch) {
+    console.log('Plnat!')
 }
 };
